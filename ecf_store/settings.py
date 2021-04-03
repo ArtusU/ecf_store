@@ -18,7 +18,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
-EMAIL_BACKEND = 'django.core.mail.backend.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,7 +28,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'crispy_forms',
+
+    'core'
 ]
+
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+NOTIFY_EMAIL = config('NOTIFY_EMAIL')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,6 +98,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -126,7 +136,7 @@ if DEBUG is False:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
     ALLOWED_HOSTS = ['www.ecf_store.co.uk']
-    EMAIL_BACKEND = 'django.core.mail.backend.smtp .EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
     DATABASES = {
         'default': {
