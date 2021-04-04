@@ -31,7 +31,8 @@ INSTALLED_APPS = [
 
     'crispy_forms',
 
-    'core'
+    'core',
+    'cart',
 ]
 
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
