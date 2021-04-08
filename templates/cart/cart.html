@@ -37,24 +37,30 @@
                   <p class="mb-0 small">{{ item.colour.name }}</p>
                 </td>
                 <td class="align-middle border-0">
-                  <p class="mb-0 small">£{{ item.product.price }}</p>
+                  <p class="mb-0 small">£{{ item.product.get_price }}</p>
                 </td>
                 <td class="align-middle border-0">
                   <div class="input-group mb-3" style="max-width: 120px;">
                     <div class="input-group-prepend">
-                        <a href="#" class="btn btn-outline-primary">&minus;</a>
+                        <a href="{% url 'cart:decrease-quantity' item.id %}" class="btn btn-outline-primary">&minus;</a>
                     </div>
                     <input type="text" class="form-control text-center" value="{{ item.quantity }}">
                     <div class="input-group-append">
-                        <a href="#" class="btn btn-outline-primary">&plus;</a>
+                        <a href="{% url 'cart:increase-quantity' item.id %}" class="btn btn-outline-primary">&plus;</a>
                     </div>
                   </div>
                 </td>
                 <td class="align-middle border-0">
-                  <p class="mb-0 small">£0</p>
+                  <p class="mb-0 small">£{{ item.get_total_item_price}}</p>
                 </td>
-                <td class="align-middle border-0"><a class="reset-anchor" href="#"><i class="fas fa-trash-alt small text-muted"></i></a></td>
+                <td class="align-middle border-0"><a class="reset-anchor" href="{% url 'cart:remove-from-cart' item.id %}"><i class="fas fa-trash-alt small text-muted"></i></a></td>
               </tr>
+              {% empty %}
+                <tr>
+                    <td colSpan='6'>
+                        There are no items in your cart.
+                    </td>
+                </tr
               {% endfor %}
             </tbody>
           </table>
