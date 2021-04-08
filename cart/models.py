@@ -100,6 +100,29 @@ class Order(models.Model):
     def reference_number(self):
         return f"ORDER-{self.pk}-{self.start_date}"
 
+    def get_raw_subtotal(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_raw_total_item_price()
+        return total
+
+    def get_subtotal(self):
+        subtotal = self.get_raw_subtotal()
+        return "{:.2f}".format(subtotal / 100)
+
+    def get_raw_total(self):
+        subtotal = self.get_raw_subtotal()
+        #subtract coupon, add tax, add delivery charges
+        #total = subtotal - coupon + tax + delivery
+        return subtotal
+
+    def get_total(self):
+        subtotal = self.get_raw_total()
+        return "{:.2f}".format(subtotal / 100)
+
+
+
+
 
 class Payment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='payments')
