@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from django import forms
 from django.forms import fields
-from .models import ColourVariation, OrderItem, ColourVariation, Product, SizeVariation
+from .models import ColourVariation, OrderItem, ColourVariation, Product, SizeVariation, Address, User
 
+
+User = get_user_model()
 
 class AddToCartForm(forms.ModelForm):
     colour = forms.ModelChoiceField(queryset=ColourVariation.objects.none())
@@ -20,4 +23,67 @@ class AddToCartForm(forms.ModelForm):
 
 
 class AddressForm(forms.Form):
-    pass
+
+    selected_shipping_address = forms.ModelChoiceField(Address.objects.none(), required=False)
+    selected_billing_address = forms.ModelChoiceField(Address.objects.none(), required=False)
+
+
+    shipping_address_1 = forms.CharField(max_length=100, required=False)
+    shipping_address_2 = forms.CharField(max_length=100, required=False)
+    shipping_city = forms.CharField(max_length=100, required=False)
+    shipping_postcode = forms.CharField(max_length=9, required=False)
+    additional_directions = forms.CharField(max_length=255, required=False)
+
+
+    billing_address_1 = forms.CharField(max_length=100, required=False)
+    billing_address_2 = forms.CharField(max_length=100, required=False)
+    billing_city = forms.CharField(max_length=100, required=False)
+    billing_postcode = forms.CharField(max_length=9, required=False)
+
+
+    def __init__(self, *args, **kwargs):
+        user_id = kwargs.pop('user_id')
+        super().__init__(*args, **kwargs)
+
+        user = User.objects.get(id=user_id)
+
+        shipping_address_qs = Address.objects.filter(
+            user=user,
+            address_type='S'
+        )
+
+        billing_address_qs = Address.objects.filter(
+            user=user,
+            address_type='B'
+        )
+
+        self.fields['selected_shipping_address'].queryset = shipping_address_qs
+        self.fields['selected_billing_address'].queryset = billing_address_qs
+
+    def clean(self):
+        data = self.cleaned_data
+
+        selected_shipping_address = data.get('selected_shipping_address', None)
+        if selected_shipping_address is None:
+            if not data.get('shipping_address_1', None):
+                self.add_error("shipping_address_1", "Please fill in this field")
+            if not data.get('shipping_address_2', None):
+                self.add_error("shipping_address_2", "Please fill in this field")
+            if not data.get('shipping_city', None):
+                self.add_error("shipping_city", "Please fill in this field")
+            if not data.get('shipping_postcode', None):
+                self.add_error("shipping_postcode", "Please fill in this field")
+            if not data.get('additional_directions', None):
+                self.add_error("additional_directions", "Please fill in this field")
+        
+        selected_billing_address = data.get('selected_billing_address', None)
+        if selected_shipping_address is None:
+            if not data.get('billing_address_1', None):
+                self.add_error("billing_address_1", "Please fill in this field")
+            if not data.get('billing_address_2', None):
+                self.add_error("billing_address_2", "Please fill in this field")
+            if not data.get('billing_city', None):
+                self.add_error("billing_city", "Please fill in this field")
+            if not data.get('billing_postcode', None):
+                self.add_error("billing_postcode", "Please fill in this field")
+            
