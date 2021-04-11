@@ -124,6 +124,10 @@ STATIC_ROOT = "static_root"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = "media"
 
+PAYPAL_CLIENT_ID = config('PAYPAL_SANDBOX_CLIENT_ID')
+PAYPAL_SECRET_KEY = config('PAYPAL_SANDBOX_SECRET_KEY')
+
+
 
 if DEBUG is False:
 
@@ -148,3 +152,6 @@ if DEBUG is False:
             'PORT': '',
         }
     }
+
+    PAYPAL_CLIENT_ID = config('PAYPAL_LIVE_CLIENT_ID')
+    PAYPAL_SECRET_KEY = config('PAYPAL_LIVE_SECRET_KEY')
