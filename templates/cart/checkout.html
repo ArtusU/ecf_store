@@ -4,19 +4,14 @@
 
 {% block content %}
 
-<div class="container">
-  <!-- HERO SECTION-->
-  <section class="py-1 bg-light">
-    <div class="container">
-      <div class="row px-2  align-items-center">
-        <div class="col-lg-6">
-          <h1 class="h2 text-uppercase mb-0">Checkout</h1>
-        </div>
+
+    <div class="row px-2  align-items-center">
+      <div class="col-lg-6">
+        <h1 class="h2 text-uppercase mb-0">Checkout</h1>
       </div>
     </div>
-  </section>
+    
 
-  <section class="py-5">
     <!-- BILLING ADDRESS-->
     {% if request.user.is_authenticated %}
     <h2 class="h5 text-uppercase mb-4">Billing details</h2>
@@ -56,8 +51,7 @@
     To finalize your order, please Login or Signup.
     </div>
     {% endif %}
-  </section>
-</div>
+
       
 {% endblock content %}
 

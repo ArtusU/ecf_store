@@ -3,9 +3,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>ECF | Shop {% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ECF | Shop</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -49,10 +51,14 @@
             {% endfor %}
         {% endif %}
 
-
-      {% block content %}
-      
-      {% endblock content %}
+      <div>
+        <section class="py-5">
+          <div class="container p-0">
+            {% block content %}
+            {% endblock content %}
+          </div>
+        </section>
+      </div>
 
 
       {% block scripts %}
