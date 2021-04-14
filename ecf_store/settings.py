@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'core',
     'cart',
+    'staff',
 ]
 
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
