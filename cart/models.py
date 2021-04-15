@@ -1,8 +1,10 @@
+from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.signals import pre_save
 from django.shortcuts import reverse
 from django.utils.text import slugify
+
 
 User = get_user_model()
 
@@ -62,6 +64,9 @@ class Product(models.Model):
 
     def get_delete_url(self):
         return reverse("staff:product-delete", kwargs={'pk':self.pk})
+    
+    def get_update_url(self):
+        return reverse("staff:product-update", kwargs={'pk':self.pk})
 
     def get_price(self):
         return "{:.2f}".format(self.price / 100)
@@ -147,7 +152,8 @@ class Payment(models.Model):
 
 def pre_save_product_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
-        instance.slug = slugify(instance.title)
+        slug_str = "%s %s" % (instance.title, instance.price)
+        instance.slug = slugify(slug_str)
 
 pre_save.connect(pre_save_product_receiver, sender=Product)
 

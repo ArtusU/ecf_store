@@ -7,6 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <h2 class="text-black">Staff Portal - Products</h2>
+                <a href="{% url 'staff:product-create' %}">Create a product</a>
                 <div class="card">
                     <div class="card-body">
                         <div class="site-blocks-table">
@@ -24,8 +25,8 @@
                                         <td>{{ product.title }}</td>
                                         <td>${{ product.get_price }}</td>
                                         <td>
-                                            <a class="btn btn-warning" href="#">Update</a>
-                                            <a class="btn btn-danger" href='{{ product.get_delete_url }}'>Delete</a>
+                                            <a class="btn btn-warning" href="{{ product.get_update_url }}">Update</a>
+                                            <a class="btn btn-danger" href="{{ product.get_delete_url }}">Delete</a>
                                         </td>
                                     </tr>
                                     {% empty %}
