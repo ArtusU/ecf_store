@@ -15,6 +15,7 @@ from .models import OrderItem
 class ProductListView(generic.ListView):
     template_name = 'cart/shop.html'
     queryset = Product.objects.all()
+    paginate_by = 3
 
 
 class ProductDetailView(generic.FormView):
