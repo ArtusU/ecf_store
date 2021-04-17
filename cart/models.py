@@ -84,6 +84,11 @@ class Product(models.Model):
     def get_price(self):
         return "{:.2f}".format(self.price / 100)
 
+    @property
+    def in_stock(self):
+        return self.stock > 0
+
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey("Order", related_name='items', on_delete=models.CASCADE)

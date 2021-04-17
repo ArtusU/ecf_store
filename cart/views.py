@@ -78,6 +78,7 @@ class ProductDetailView(generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context["product"] = self.get_object()
+        
         return context
         
 
