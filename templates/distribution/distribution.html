@@ -6,6 +6,32 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delivery day</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Monday</a>
+                        <a class="dropdown-item" href="#">Tuesday</a>
+                        <a class="dropdown-item" href="#">Wednesday</a>
+                        <a class="dropdown-item" href="#">Thursday</a>
+                        <a class="dropdown-item" href="#">Friday</a>
+                    </div>
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delivery run</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">1</a>
+                        <a class="dropdown-item" href="#">2</a>
+                        <a class="dropdown-item" href="#">3</a>
+                        <a class="dropdown-item" href="#">4</a>
+                        <a class="dropdown-item" href="#">5</a>
+                    </div>
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Approved</a>
+                        <a class="dropdown-item" href="#">Pending</a>
+                        <a class="dropdown-item" href="#">OFD</a>
+                        <a class="dropdown-item" href="#">Delivered</a>
+                        <a class="dropdown-item" href="#">SO</a>
+                    </div>
+                </div>
                 <h2 class="text-black">Distribution Portal</h2>
                 <div class="card">
                     <div class="card-body">
@@ -17,7 +43,7 @@
                                         <th>Name</th>
                                         <th>Address</th>
                                         <th>Postcode</th>
-                                        <th>Product Name</th>
+                                        <th>Order No</th>
                                         <th>Delivery Day</th>
                                         <th>Run</th>
                                         <th>Stage</th>
@@ -26,10 +52,10 @@
                                 <tbody>
                                     {% for order in orders %}
                                     <tr>
-                                        <td><a href="{% url 'cart:order-detail' order.pk %}">{{ order.order.user.username }}</a></td>
+                                        <td>{{ order.order.user.email }}</a></td>
                                         <td>{{ order.order.shipping_address.address_line_1 }} {{ order.order.shipping_address.address_line_2 }}</td>
                                         <td>{{ order.order.shipping_address.post_code }}</td>
-                                        <td>{{ order.order.reference_number }}</td>
+                                        <td><a href="{% url 'cart:order-detail' order.pk %}">{{ order.order.reference_number }}</td>
                                         <td>
                                             <div class="card-body">
                                                 <div class="dropdown">

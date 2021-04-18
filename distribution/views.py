@@ -9,8 +9,7 @@ from distribution.models import OrderDistribution
 
 class DistributionListView(LoginRequiredMixin, generic.ListView):
     template_name = 'distribution/distribution.html'
-    queryset = OrderDistribution.objects.filter(order__ordered=True).order_by('order__ordered_date')
-    #queryset = OrderDistribution.objects.all()
+    queryset = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
     context_object_name = 'orders'
 
     
