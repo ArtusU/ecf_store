@@ -195,9 +195,13 @@ class ConfirmOrderView(generic.View):
             amount=float(body["purchase_units"][0]["amount"]["value"]),
             payment_method='PayPal'
         )
+
+
         order.ordered = True
-        order.ordered_date = datetime.date.today()
+        order.ordered_date = datetime.datetime.today()
+
         order.save()
+
         return JsonResponse({"data": "Success"})
 
 
