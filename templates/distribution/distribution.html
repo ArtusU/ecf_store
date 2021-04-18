@@ -30,10 +30,47 @@
                                         <td>{{ order.order.shipping_address.address_line_1 }} {{ order.order.shipping_address.address_line_2 }}</td>
                                         <td>{{ order.order.shipping_address.post_code }}</td>
                                         <td>{{ order.order.reference_number }}</td>
-                                        <td>{{ order.delivery_day }}</td>
-                                        <td>{{ order.delivery_run }}</td>
-                                        <td>{{ order.order_stage }}</td>
+                                        <td>
+                                            <div class="card-body">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ order.delivery_day }}</button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Monday">Monday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Tuesday">Tuesday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Wednesday">Wednesday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Thursday">Thursday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Friday">Friday</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="card-body">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ order.delivery_run }}</button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=1">1</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=2">2</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=3">3</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=4">4</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=5">5</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="card-body">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ order.order_stage }}</button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=Approved">Approved</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=Pending">Pending</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=OFD">OFD</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=Delivered">Delivered</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=SO">SO</a>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
+
                                     {% empty %}
                                     <tr>
                                         <td colspan="4">You haven't made any orders</td>

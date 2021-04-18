@@ -6,33 +6,33 @@ from cart.models import Order
 
 
 DAY = (
-    ('Mo', 'Monday'),
-    ('Tu', 'Tuesday'),
-    ('We', 'Wednesday'),
-    ('Th', 'Thursday'),
-    ('Fr', 'Friday'),
+    ('Monday', 'Monday'),
+    ('Tuesday', 'Tuesday'),
+    ('Wednesday', 'Wednesday'),
+    ('Thursday', 'Thursday'),
+    ('Friday', 'Friday'),
 )
 
 RUN = (
-    ('1', 'Run 1'),
-    ('3', 'Run 2'),
-    ('4', 'Run 3'),
-    ('2', 'Run 4'),
-    ('5', 'Run 5'),
+    ('1', '1'),
+    ('3', '2'),
+    ('4', '3'),
+    ('2', '4'),
+    ('5', '5'),
 )
 
 STATUS = (
         ('Approved', 'Approved'),
         ('Pending', 'Pending'),
-        ('Out for delivery', 'Out for delivery'),
+        ('OFD', 'OFD'),
         ('Delivered', 'Delivered'),
-        ('SO', 'Standing Order'),
+        ('SO', 'SO'),
     )
 class OrderDistribution(models.Model):
     order = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL)
-    delivery_day = models.CharField(max_length=20, choices=DAY)
-    delivery_run = models.CharField(max_length=20, choices=RUN)
-    order_stage = models.CharField(max_length=20, choices=STATUS)
+    delivery_day = models.CharField(max_length=50, choices=DAY)
+    delivery_run = models.CharField(max_length=50, choices=RUN)
+    order_stage = models.CharField(max_length=50, choices=STATUS)
 
     archive = models.BooleanField(default=False)
 
