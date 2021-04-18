@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <h2 class="text-black">Distribution Portal</h2>
+                <div class="card">
+                    <div class="card-body">
+                        
+                        <div class="site-blocks-table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Postcode</th>
+                                        <th>Product Name</th>
+                                        <th>Delivery Day</th>
+                                        <th>Run</th>
+                                        <th>Stage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td><a href="{% url 'cart:order-detail' order.pk %}">{{ order.order.user.username }}</a></td>
+                                        <td>{{ order.order.shipping_address.address_line_1 }} {{ order.order.shipping_address.address_line_2 }}</td>
+                                        <td>{{ order.order.shipping_address.post_code }}</td>
+                                        <td>{{ order.order.reference_number }}</td>
+                                        <td>
+                                            <div class="card-body">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ order.delivery_day }}</button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Monday">Monday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Tuesday">Tuesday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Wednesday">Wednesday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Thursday">Thursday</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-day' order.id %}?delivery_day=Friday">Friday</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="card-body">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ order.delivery_run }}</button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=1">1</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=2">2</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=3">3</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=4">4</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-run' order.id %}?delivery_run=5">5</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="card-body">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ order.order_stage }}</button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=Approved">Approved</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=Pending">Pending</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=OFD">OFD</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=Delivered">Delivered</a>
+                                                    <a class="dropdown-item" href="{% url 'distribution:change-delivery-stage' order.id %}?order_stage=SO">SO</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4">You haven't made any orders</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            {% if page_obj.has_other_pages %}
+            <span class="step-links">
+                <div class="row mt-2">
+                    <div class="col-md-12 text-center">
+                        <div class="site-block-27">
+                            <div class="pagination">
+                                 
+                                {% if page_obj.has_previous %}
+                                    <li><a class="btn btn-outline-secondary" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                    <li class="btn btn-outline-secondary" class='disabled'><span>&laquo;</span></li>
+                                {% endif %}
+
+                                {% for i in paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="btn btn-info" class='active'>
+                                            <span>
+                                            {{ i }}
+                                            </span>
+                                        </li>
+                                    {% else %}
+                                        <li><a class="btn btn-outline-secondary" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li><a class="btn btn-outline-secondary" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                    <li class="btn btn-outline-secondary" class='disabled'><span>&raquo;</span></li>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>                  
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

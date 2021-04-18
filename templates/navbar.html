@@ -20,7 +20,7 @@
                 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                   <div class="dropdown-menu mt-3" aria-labelledby="pagesDropdown">
                   <a class="dropdown-item border-0 transition-link" href="{% url 'staff:staff' %}">Staff</a>
-                  <a class="dropdown-item border-0 transition-link" href="#">Warehouse</a>
+                  <a class="dropdown-item border-0 transition-link" href="{% url 'distribution:distribution-list' %}">Warehouse</a>
                 </li>
                 {% endif %}
               </ul>
