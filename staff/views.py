@@ -9,13 +9,13 @@ from .mixins import StaffUserMixin
 class StaffViews(LoginRequiredMixin, StaffUserMixin, generic.ListView):
     template_name = 'staff/staff.html'
     queryset = Order.objects.filter(ordered=True).order_by('-ordered_date')
-    paginate_by = 3
+    paginate_by = 10
     context_object_name = 'orders'
 
 class ProductListView(LoginRequiredMixin, StaffUserMixin, generic.ListView):
     template_name = 'staff/product_list.html'
     queryset = Product.objects.all()
-    paginate_by = 3
+    paginate_by = 10
     context_object_name = 'products'
 
 
@@ -42,6 +42,7 @@ class ProductUpdateView(LoginRequiredMixin, StaffUserMixin, generic.UpdateView):
     def form_valid(self, form):
         form.save()
         return super(ProductUpdateView, self).form_valid(form)
+
 
 class ProductDeleteView(LoginRequiredMixin, StaffUserMixin, generic.DeleteView):
     template_name = 'staff/product_delete.html'
