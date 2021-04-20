@@ -10,23 +10,10 @@ from cart.models import Order, Payment
 
 class DistributionListView(LoginRequiredMixin, generic.ListView):
     template_name = 'distribution/distribution.html'
+    #queryset = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
     queryset = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
     context_object_name = 'orders'
 
-    # def get_queryset(self):
-    #     qs = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
-    #     delivery_day = self.request.GET.get('delivery_day', None)
-    #     delivery_run = self.request.GET.get('delivery_run', None)
-    #     order_stage = self.request.GET.get('order_stage', None)
-    #     if delivery_day:
-    #         qs = qs.filter(delivery_day=delivery_day)
-    #     elif delivery_run:
-    #         qs = qs.filter(delivery_run=delivery_run)
-    #     elif order_stage:
-    #         qs = qs.filter(order_stage=order_stage)
-    #     else:
-    #         return redirect("distribution:distribution-list")
-    #     return qs
 
     
 
@@ -60,3 +47,15 @@ class DistributionDetailView(LoginRequiredMixin, generic.DetailView):
     #queryset = Order.objects.all()
     queryset = OrderDistribution.objects.filter(order__ordered=True)
     context_object_name = 'order'
+
+
+class DailyDistributionListView(generic.ListView):
+    template_name = 'distribution/daily_distribution.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        qs = OrderDistribution.objects.filter(order__ordered=True)
+        delivery_day = self.request.GET.get('delivery_day', None)
+        if delivery_day:
+            qs = qs.filter(delivery_day=delivery_day)
+        return qs
