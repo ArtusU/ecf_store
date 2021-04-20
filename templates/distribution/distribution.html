@@ -6,32 +6,38 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                <span>
                 <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delivery day</button>
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButtondelivery_day" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delivery day</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Monday</a>
-                        <a class="dropdown-item" href="#">Tuesday</a>
-                        <a class="dropdown-item" href="#">Wednesday</a>
-                        <a class="dropdown-item" href="#">Thursday</a>
-                        <a class="dropdown-item" href="#">Friday</a>
-                    </div>
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delivery run</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">1</a>
-                        <a class="dropdown-item" href="#">2</a>
-                        <a class="dropdown-item" href="#">3</a>
-                        <a class="dropdown-item" href="#">4</a>
-                        <a class="dropdown-item" href="#">5</a>
-                    </div>
-                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Approved</a>
-                        <a class="dropdown-item" href="#">Pending</a>
-                        <a class="dropdown-item" href="#">OFD</a>
-                        <a class="dropdown-item" href="#">Delivered</a>
-                        <a class="dropdown-item" href="#">SO</a>
+                        <a class="dropdown-item" href="?delivery_day=Monday">Monday</a>
+                        <a class="dropdown-item" href="?delivery_day=Tuesday">Tuesday</a>
+                        <a class="dropdown-item" href="?delivery_day=Wednesday">Wednesday</a>
+                        <a class="dropdown-item" href="?delivery_day=Thursday">Thursday</a>
+                        <a class="dropdown-item" href="?delivery_day=Friday">Friday</a>
                     </div>
                 </div>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButtondelivery_run" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Delivery run</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtondelivery_run">
+                        <a class="dropdown-item" href="?delivery_run=1">1</a>
+                        <a class="dropdown-item" href="?delivery_run=2">2</a>
+                        <a class="dropdown-item" href="?delivery_run=3">3</a>
+                        <a class="dropdown-item" href="?delivery_run=4">4</a>
+                        <a class="dropdown-item" href="?delivery_run=5">5</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" id="dropdownMenuButtonorder_stage" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stage</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonorder_stage">
+                        <a class="dropdown-item" href="order_stage=Approved">Approved</a>
+                        <a class="dropdown-item" href="order_stage=Pending">Pending</a>
+                        <a class="dropdown-item" href="order_stage=OFD">OFD</a>
+                        <a class="dropdown-item" href="order_stage=Delivered">Delivered</a>
+                        <a class="dropdown-item" href="order_stage=SO">SO</a>
+                    </div>
+                </div>
+                </span>
                 <h2 class="text-black">Distribution Portal</h2>
                 <div class="card">
                     <div class="card-body">
@@ -49,13 +55,14 @@
                                         <th>Stage</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     {% for order in orders %}
                                     <tr>
                                         <td>{{ order.order.user.email }}</a></td>
                                         <td>{{ order.order.shipping_address.address_line_1 }} {{ order.order.shipping_address.address_line_2 }}</td>
                                         <td>{{ order.order.shipping_address.post_code }}</td>
-                                        <td><a href="{% url 'cart:order-detail' order.pk %}">{{ order.order.reference_number }}</td>
+                                        <td><a href="{% url 'distribution:distribution-detail' order.pk %}">{{ order.order.reference_number }}</td>
                                         <td>
                                             <div class="card-body">
                                                 <div class="dropdown">

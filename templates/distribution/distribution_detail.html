@@ -2,18 +2,26 @@
 
 {% block content %}
 
-
 <div class="site-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <a href="{% url 'profile' %}">Back to profile</a>
+                <h2 class="text-black">Distribution Order Details</h2>
+                <a href="{% url 'distribution:distribution-list' %}">Back to Disctribution Portal</a>
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
-                            Order: #{{ order.reference_number }}
+                            Order: #{{ order.order.reference_number }}
                         </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Ordered on: {{ order.ordered_date }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Ordered on: {{ order.order.ordered_date }} </h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Name: {{ order.order.user.username }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Email: {{ order.order.user.email }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Address: {{ order.order.shipping_address.address_line_1 }} {{ order.order.shipping_address.address_line_2 }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Postcode: {{ order.order.shipping_address.post_code }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Directions: {{ order.order.shipping_address.directions }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Delivery: {{ order.delivery_day }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Run: {{ order.delivery_run }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Stage: {{ order.order_stage }}</h6>
                         <div class="site-blocks-table">
                             <table class="table">
                                 <thead>
@@ -23,7 +31,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for item in order.items.all %}
+                                    {% for item in order.order.items.all %}
                                     <tr>
                                         <td>{{ item.size.name }}, {{ item.colour.name }} of {{ item.product.title }} x
                                             {{ item.quantity }}</td>
@@ -32,11 +40,11 @@
                                     {% endfor %}
                                     <tr>
                                         <td>Subtotal</td>
-                                        <td>${{ order.get_subtotal }}</td>
+                                        <td>£{{ order.order.get_subtotal }}</td>
                                     </tr>
                                     <tr>
                                         <td>Total</td>
-                                        <td>${{ order.get_total }}</td>
+                                        <td>${{ order.order.get_total }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -47,5 +55,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock content %}

@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, reverse
+from django.utils import timezone
 from django.views import generic
 from .models import Address, Category, Order, OrderItem, Product, Payment, Category
 from .forms import AddToCartForm, AddressForm
@@ -198,7 +199,7 @@ class ConfirmOrderView(generic.View):
 
 
         order.ordered = True
-        order.ordered_date = datetime.datetime.today()
+        order.ordered_date = timezone.now()
 
         order.save()
 
