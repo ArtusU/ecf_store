@@ -96,3 +96,7 @@ class AddressForm(forms.Form):
             if not data.get('billing_postcode', None):
                 self.add_error("billing_postcode", "Please fill in this field")
             
+
+
+class StripePaymentForm(forms.Form):
+    selectedCard = forms.CharField()
