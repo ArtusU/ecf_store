@@ -8,11 +8,11 @@
             <div class="col-md-12">
                 <div class="card-body">
                     <p>
-                    <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-run-distribution' %}?delivery_day={{orders.delivery_day}}&delivery_run=1">1</a>
-                    <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-run-distribution' %}?delivery_day=Tuesday&delivery_run=2">2</a>
-                    <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-run-distribution' %}?delivery_run=3">3</a>
-                    <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-run-distribution' %}?delivery_run=4">4</a>
-                    <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-run-distribution' %}?delivery_run=5">5</a>
+                    <a class="btn btn-sm btn-secondary" type="button" href="?delivery_run=1">1</a>
+                    <a class="btn btn-sm btn-secondary" type="button" href="?delivery_run=2">2</a>
+                    <a class="btn btn-sm btn-secondary" type="button" href="?delivery_run=3">3</a>
+                    <a class="btn btn-sm btn-secondary" type="button" href="?delivery_run=4">4</a>
+                    <a class="btn btn-sm btn-secondary" type="button" href="?delivery_run=5">5</a>
                     </p>
                 </div>
                 <a href="{% url 'distribution:distribution-list' %}">Back to Distribution Portal</a>
