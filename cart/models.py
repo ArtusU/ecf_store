@@ -159,6 +159,8 @@ class Payment(models.Model):
     successful = models.BooleanField(default=False)
     amount = models.FloatField()
     raw_response = models.TextField()
+    
+
 
     def __str__(self):
         return self.reference_number
@@ -166,6 +168,22 @@ class Payment(models.Model):
     @property
     def reference_number(self):
         return f"PAYMENT-{self.order}-{self.pk}-{self.time_stamp}"
+
+
+class StripePayment(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name='stripe_payments')
+    payment_intent_id = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    successful = models.BooleanField(default=False)
+    amount = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.reference_number
+
+    @property
+    def reference_number(self):
+        return f"STRIPE-PAYMENT-{self.order}-{self.pk}"
 
 
 def pre_save_product_receiver(sender, instance, *args, **kwargs):

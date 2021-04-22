@@ -1,5 +1,6 @@
 import datetime
 import json
+from django.http.response import HttpResponse
 import stripe
 from django.conf import settings
 from django.contrib import messages
@@ -9,8 +10,9 @@ from django.http import JsonResponse, request
 from django.shortcuts import get_object_or_404, redirect, reverse
 from django.utils import timezone
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
 from stripe.api_resources import payment_method
-from .models import Address, Category, Order, OrderItem, Product, Payment, Category
+from .models import Address, Category, Order, OrderItem, Product, Payment, Category, StripePayment
 from .forms import AddToCartForm, AddressForm, StripePaymentForm
 from .utils import get_or_set_order_session
 
@@ -197,7 +199,7 @@ class StripePaymentView(generic.FormView):
         if payment_method != "newCard":
             try:
                 order = get_or_set_order_session(self.request)
-                stripe.PaymentIntent.create(
+                payment_intent = stripe.PaymentIntent.create(
                     amount=order.get_raw_total(),
                     currency='gbp',
                     customer=self.request.user.customer.stripe_customer_id,
@@ -205,6 +207,14 @@ class StripePaymentView(generic.FormView):
                     off_session=True,
                     confirm=True,
                 )
+
+                payment_record, created = StripePayment.objects.get_or_create(
+                    order=order
+                )
+                payment_record.payment_intent_id = payment_intent["id"]
+                payment_record.amount = order.get_total()
+                payment_record.save()
+
             except stripe.error.CardError as e:
                 err = e.error
                 # Error code will be authentication_required if authentication is needed
@@ -229,6 +239,13 @@ class StripePaymentView(generic.FormView):
             currency='gbp',
             customer=user.customer.stripe_customer_id
         )
+
+        payment_record, created = StripePayment.objects.get_or_create(
+            order=order
+        )
+        payment_record.payment_intent_id = payment_intent["id"]
+        payment_record.amount = order.get_total()
+        payment_record.save()
 
         cards = stripe.PaymentMethod.list(
             customer=user.customer.stripe_customer_id,
@@ -263,13 +280,9 @@ class ConfirmOrderView(generic.View):
             amount=float(body["purchase_units"][0]["amount"]["value"]),
             payment_method='PayPal'
         )
-
-
         order.ordered = True
         order.ordered_date = timezone.now()
-
         order.save()
-
         return JsonResponse({"data": "Success"})
 
 
@@ -281,3 +294,41 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'order.html'
     queryset = Order.objects.all()
     context_object_name = 'order'
+
+
+@csrf_exempt
+def stripe_webhook_view(request):
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+        print(event)
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the event
+    if event.type == 'payment_intent.succeeded':
+        payment_intent = event.data.object  # contains a stripe.PaymentIntent
+        stripe_payment = StripePayment.objects.get(
+            payment_intent_id=payment_intent["id"]
+        )
+        stripe_payment.successful = True
+        stripe_payment.save()
+        order = stripe_payment.order
+        order.ordered = True
+        order.ordered_date = timezone.now()
+        order.save()
+    else:
+        # Unexpected event type
+        return HttpResponse(status=400)
+
+    return HttpResponse(status=200)
