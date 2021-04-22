@@ -14,5 +14,7 @@ urlpatterns = [
     path('payment/', views.PaymentView.as_view(), name='payment'),
     path('thank-you/', views.ThankYouView.as_view(), name='thank-you'),
     path('confirm-order/', views.ConfirmOrderView.as_view(), name='confirm-order'),
-    path('orders/<pk>', views.OrderDetailView.as_view(), name='order-detail')
+    path('orders/<pk>', views.OrderDetailView.as_view(), name='order-detail'),
+    path('payment/stripe/', views.StripePaymentView.as_view(), name='payment-stripe'),
+    path('webhooks/stripe/', views.stripe_webhook_view, name='stripe-webhook'),
 ]

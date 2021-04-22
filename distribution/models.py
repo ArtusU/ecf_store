@@ -30,7 +30,7 @@ STATUS = (
         ('SO', 'SO'),
     )
 class OrderDistribution(models.Model):
-    order = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL)
+    order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
     delivery_day = models.CharField(max_length=50, choices=DAY, blank=True)
     delivery_run = models.CharField(max_length=50, choices=RUN, blank=True)
     order_stage = models.CharField(max_length=50, choices=STATUS, blank=True)
