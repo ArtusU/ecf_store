@@ -7,14 +7,25 @@ from django.views import generic
 from cart import models
 from distribution.models import OrderDistribution
 from cart.models import Order, Payment
+from distribution.filters import OrderDistributionFilter
 
 class DistributionListView(LoginRequiredMixin, generic.ListView):
     template_name = 'distribution/distribution.html'
-    #queryset = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
-    queryset = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
     context_object_name = 'orders'
 
+    def get_queryset(self):
+        qs = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super(DistributionListView, self).get_context_data(**kwargs)
+        context.update({
+            "myFilter": OrderDistributionFilter(self.request.GET, queryset=self.get_queryset())
+        })
+        return context
+
     
+
 class ChangeDeliveryDay(generic.View): 
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderDistribution, id=kwargs['pk'])
