@@ -14,10 +14,7 @@ class DistributionListView(LoginRequiredMixin, generic.ListView):
     queryset = OrderDistribution.objects.filter(order__ordered=True).order_by('-order__ordered_date')
     context_object_name = 'orders'
 
-
     
-
-
 class ChangeDeliveryDay(generic.View): 
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderDistribution, id=kwargs['pk'])
