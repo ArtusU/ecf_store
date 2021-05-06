@@ -15,9 +15,20 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
-                            Order: #{{ order.reference_number }}
+                            Customer: {{ order.user }}
                         </h5>
+                        <h5 class="card-title">
+                            Email: {{ order.user.email }}
+                        </h5>
+                        <h5 class="card-title">
+                            Delivery Address: {{ order.shipping_address.address_line_1 }} {{ order.shipping_address.address_line_2 }}, {{ order.shipping_address.city }}, {{ order.shipping_address.post_code }}
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Directions: {{ order.shipping_address.directions }}</h6>
+                        <hr/>
                         <h6 class="card-subtitle mb-2 text-muted">Ordered on: {{ order.ordered_date }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Order: #{{ order.reference_number }}</h6>
+                        
+                        
                         <div class="site-blocks-table">
                             <table class="table">
                                 <thead>

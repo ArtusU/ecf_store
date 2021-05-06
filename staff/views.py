@@ -4,13 +4,33 @@ from django.views import generic
 from cart.models import Order, Product
 from staff.forms import ProductForm
 from .mixins import StaffUserMixin
+from staff.filters import StaffCustomerFilter
+
+
+# class StaffViews(LoginRequiredMixin, StaffUserMixin, generic.ListView):
+#     template_name = 'staff/staff.html'
+#     context_object_name = 'orders'
+#     queryset = Order.objects.filter(ordered=True).order_by('-ordered_date')
+#     paginate_by = 10
 
 
 class StaffViews(LoginRequiredMixin, StaffUserMixin, generic.ListView):
     template_name = 'staff/staff.html'
-    queryset = Order.objects.filter(ordered=True).order_by('-ordered_date')
-    paginate_by = 10
     context_object_name = 'orders'
+    #queryset = Order.objects.filter(ordered=True).order_by('-ordered_date')
+    #paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Order.objects.filter(ordered=True).order_by('-ordered_date')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(StaffViews, self).get_context_data(**kwargs)
+        context.update({
+            "myFilter": StaffCustomerFilter(self.request.GET, queryset=self.get_queryset())
+        })
+        return context
+
 
 class ProductListView(LoginRequiredMixin, StaffUserMixin, generic.ListView):
     template_name = 'staff/product_list.html'

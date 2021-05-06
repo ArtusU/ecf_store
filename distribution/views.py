@@ -57,29 +57,41 @@ class DistributionDetailView(LoginRequiredMixin, generic.DetailView):
     context_object_name = 'order'
 
 
-class DailyDistributionListView(generic.ListView):
-    template_name = 'distribution/daily_distribution.html'
-    context_object_name = 'orders'
+# class DailyDistributionListView(generic.ListView):
+#     template_name = 'distribution/daily_distribution.html'
+#     context_object_name = 'orders'
 
-    def get_queryset(self):
-        qs = OrderDistribution.objects.filter(order__ordered=True)
-        delivery_day = self.request.GET.get('delivery_day', None)
-        if delivery_day:
-            qs = qs.filter(delivery_day=delivery_day)
-        return qs
-
-
-class DailyRunDistributionListView(generic.ListView):
-    template_name = 'distribution/daily_run_distribution.html'
-    context_object_name = 'orders'
+#     def get_queryset(self):
+#         qs = OrderDistribution.objects.filter(order__ordered=True)
+#         delivery_day = self.request.GET.get('delivery_day', None)
+#         if delivery_day:
+#             qs = qs.filter(delivery_day=delivery_day)
+#         return qs
 
 
-    def get_queryset(self):
-        qs = OrderDistribution.objects.filter(order__ordered=True)
-        delivery_day = self.request.GET.get('delivery_day', None)
-        delivery_run = self.request.GET.get('delivery_run', None)
-        print(delivery_day)
-        print(delivery_run)
-        if delivery_day and delivery_run:
-            qs = qs.filter(delivery_day=delivery_day, delivery_run=delivery_run)
-        return qs
+# class DailyRunDistributionListView(generic.ListView):
+#     template_name = 'distribution/daily_run_distribution.html'
+#     context_object_name = 'orders'
+
+#     # def get_deliveryday(self, **kwargs):
+#     #     return self.request.GET.get('delivery_day', None)
+#     #     print(get_deliveryday())
+
+#         #return get_object_or_404(OrderDistribution, delivery_day=self.kwargs["delivery_day"])
+
+#     def dispatch(self, request, *args, **kwargs):
+#         kwargs["delivery_day"] = self.request.GET.get('delivery_day', None)
+#         return super().dispatch(request, *args, **kwargs)
+        
+        
+    
+
+#     def get_queryset(self):
+#         qs = OrderDistribution.objects.filter(order__ordered=True)
+#         delivery_day = self.request.GET.get(self.kwargs["delivery_day"])
+#         delivery_run = self.request.GET.get('delivery_run', None)
+#         print(self.get_deliveryday())
+#         print(delivery_run)
+#         if delivery_run:
+#             qs = qs.filter(delivery_day=delivery_day, delivery_run=delivery_run)
+#         return qs

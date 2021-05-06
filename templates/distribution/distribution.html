@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card-body">
+                {% comment %} <div class="card-body">
                     <p>
                     <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-distribution' %}?delivery_day=Monday">Monday</a>
                     <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-distribution' %}?delivery_day=Tuesday">Tuesday</a>
@@ -13,25 +13,22 @@
                     <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-distribution' %}?delivery_day=Thursday">Thursday</a>
                     <a class="btn btn-sm btn-secondary" type="button" href="{% url 'distribution:daily-distribution' %}?delivery_day=Friday">Friday</a>
                     </p>
-                </div>
-
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card card-body">
-                                <form method "GET">
-                                {{ myFilter.form }}
-                                <button class="btn btn-success" type="submit">Search</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                </div> {% endcomment %}
                 <h2 class="text-black">Distribution Portal</h2>
                 <div class="card">
                     <div class="card-body">
-                        
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-body">
+                                        <form method "GET">
+                                        {{ myFilter.form }}
+                                        <button class="btn btn-success float-right" type="submit">Search</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="site-blocks-table">
                             <table class="table">
                                 <thead>

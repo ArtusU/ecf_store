@@ -6,17 +6,22 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h2 class="text-black">Staff Portal</h2>
+                <a href="{% url 'staff:product-list' %}">Go to Products</a>
+                <h2 class="text-black">Staff Portal | Recent orders</h2>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">
-                            {{ request.user.email }}
-                        </h5>
-                        <hr />
-                        <a href="{% url 'staff:product-list' %}">Products</a>
-                        <hr />
-
-                        <h5 class="card-title">Recent orders</h5>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-body">
+                                        <form method "GET">
+                                        {{ myFilter.form }}
+                                        <button class="btn btn-success float-right" type="submit">Search</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
                         <div class="site-blocks-table">
                             <table class="table">
                                 <thead>
@@ -25,7 +30,7 @@
                                         <th>Date</th>
                                         <th>User</th>
                                         <th>Amount</th>
-                                        <th>Payment Status</th>
+                                        <th>Payment</th>
                                     </tr>
                                 </thead>
                                 <tbody>

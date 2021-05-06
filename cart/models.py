@@ -33,7 +33,7 @@ class Address(models.Model):
     default = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.address_line_1}, {self.city}, {self.post_code}"
+        return f"{self.address_line_1}, {self.address_line_2}, {self.city}, {self.post_code}"
 
     class Meta:
         verbose_name_plural = 'Addresses'
